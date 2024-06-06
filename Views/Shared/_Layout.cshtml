@@ -1,0 +1,60 @@
+@{
+    var activeController = ViewContext.RouteData.Values["controller"];
+    var homeController = activeController == "Home" ? "active" : "";
+    var projectController = activeController == "Project" ? "active" : "";
+    var taskController = activeController == "Task" ? "active" : "";
+    var employeeController = activeController == "Employee" ? "active" : "";
+}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/lib/bootstrap5/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="/lib/bootstrap5-icons/font/bootstrap-icons.min.css">
+    <title>Empresa X :: @ViewBag.Subtitulo</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" asp-action="Index">Empresa X</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain"
+                aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarMain">
+                <div class="navbar-nav">
+                    <a class="nav-link @homeController" 
+                        asp-action="Index" asp-controller="Task">Tarefas</a>
+                    <a class="nav-link @employeeController" 
+                        asp-action="Index" asp-controller="Employee">Funcionários</a>
+                    <a class="nav-link @projectController" 
+                        asp-action="Index" asp-controller="Project">Projetos</a>
+                    <partial name="_LoginLogoutPartial"/>
+                    
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    
+    
+    <div class="container">
+        <partial name="_InformationMessagePartial"/>
+        @RenderBody()
+    </div>
+
+
+    <div class="text-light bg-dark p-3 fixed-bottom text-center">
+        Controle de Usuários&copy; @DateTime.Now.Year.ToString()<br>
+        Todos os direitos reservados
+    </div>
+
+    <script src="/lib/bootstrap5/dist/js/bootstrap.js"></script>
+    @RenderSection("Scripts", false)
+</body>
+
+</html>

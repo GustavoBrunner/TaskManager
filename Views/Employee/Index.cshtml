@@ -1,0 +1,89 @@
+@model IEnumerable<UserModel>
+@inject UserManager<UserModel> _userManager
+@{
+    var adms = TempData["adms"] as IEnumerable<UserModel>;
+    bool isAdm = false;
+    var userLogged = await _userManager.GetUserAsync(Context.User);
+    if (Context.User != null)
+    {
+        if (adms.Any(a => a.FullName == userLogged.FullName))
+        {
+            isAdm = true;
+            //libera algumas coisas para serem alteradas na página
+        }
+    }
+    ViewBag.Subtitulo = "Funcionários";
+
+}
+
+<div class="container">
+    <a asp-action="Register" class="btn btn-primary">
+        Novo funcionário</a>
+    <a asp-action="Index" asp-controller="Home" class="btn btn-danger">Voltar</a>
+</div>
+
+<table class="table">
+    @if (!(Model.Count() > 0))
+    {
+        <p>Nenhum cliente para mostrar</p>
+    }
+    else
+    {
+        <thead>
+            <tr>
+                <th scope="col">Nome</th>
+                <th scope="col">Email</th>
+                <th scope="col">Telefone</th>
+                <th scope="col">CPF</th>
+                <th scope="col">Data Nascimento</th>
+                <th scope="col">Idade</th>
+                <th scope="col">Tarefa ativa</th>
+                <th scope="col">ações</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var c in Model)
+            {
+                <tr>
+                    <th>@c.FullName</th>
+                    <th>@c.Email</th>
+                    <th>@c.PhoneNumber</th>
+                    <th>@c.Cpf</th>
+                    <th>@c.Birth</th>
+                    <th>@c.Age</th>
+                    <th><a asp-action="TaskInfo" asp-controller="Task" asp-route-tid="@c.ActiveTaskId">
+                            @c.ActiveTask</a>
+                    </th>
+                    <th>
+
+                        @if (isAdm)
+                        {
+                            @if (adms.Any(a => a.FullName == c.FullName))
+                            {
+                                <a asp-action="RemoveAdm" asp-route-id="@c.Id" 
+                                    class="btn btn-danger"><i class="bi bi-person-x" 
+                                    title="Adicionar Adm"></i></a>
+
+                            }
+                            else
+                            {
+                                <a asp-action="AddAdm" asp-route-id="@c.Id" 
+                                    class="btn btn-success"><i class="bi-person-plus" 
+                                    title="Remover adm"></i></a>
+                            }
+                            <a asp-action="Register" asp-route-id="@c.Id" class="btn btn-sm btn-secondary">
+                                <i class="bi-pencil" title="Alterar"> </i></a>
+                            <a asp-action="Delete" asp-route-id="@c.Id" class="btn btn-sm btn-danger">
+                                <i class="bi bi-trash" title="Delete"></i></a>
+                        }
+                        <a asp-action="ShowTasks" asp-route-id="@c.Id" class="btn btn-sm btn-secondary">
+                            <i class="bi bi-archive-fill" title="Tarefas"> </i></a>
+                        <a asp-action="ShowProject" asp-route-id="@c.Id" class="btn btn-sm btn-danger">
+                            <i class="bi bi-clipboard2-fill" title="Projetos"></i></a>
+                    </th>
+                </tr>
+            }
+        </tbody>
+    }
+</table>

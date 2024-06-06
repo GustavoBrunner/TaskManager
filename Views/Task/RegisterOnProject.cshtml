@@ -1,0 +1,36 @@
+@model TaskModelDto;
+@{
+    ViewBag.Subtitulo = "Registrar Tarefa";
+}
+
+<form asp-action="RegisterOnProject" class="mb-3">
+    <input asp-for="@Model.ProjectId" value="@ViewBag.ProjectId" name="pid" type="hidden">
+    <input asp-for="@Model.Id" type="hidden" name="">
+
+    <div class="mb-3">
+        <label asp-for="@Model.TaskName" class="form-label">Nome da Tarefa</label>
+        <input asp-for="@Model.TaskName" type="text" class="form-control">
+        <span asp-validation-for="@Model.TaskName" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="@Model.TaskDescription" class="form-label">Descrição da Tarefa</label>
+        <textarea asp-for="@Model.TaskDescription" rows="5" class="form-control"></textarea>
+        <span asp-validation-for="@Model.TaskDescription" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="@Model.ResponsibleId" class="form-label">Encarregado</label>
+        <select asp-for="@Model.ResponsibleId" 
+            asp-items="@(IEnumerable<SelectListItem>)ViewBag.EmployeeList" class="form-control"></select>
+        <span asp-validation-for="@Model.ResponsibleId" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <button class="btn btn-success" type="submit">Enviar</button>
+        <a asp-action="Index" class="btn-btn-danger">Voltar</a>
+    </div>
+    
+</form>
+
+

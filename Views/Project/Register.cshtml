@@ -1,0 +1,34 @@
+@model ProjectModelDto
+@{
+    bool isUpdating = ViewContext.RouteData.Values.ContainsKey("id");
+    if(isUpdating)
+        ViewBag.Subtitulo = "Atualização de projeto";
+    else
+        ViewBag.Subtitulo = "Registro de projeto";
+}
+
+<h1 class="text-primary">@ViewBag.Subtitulo</h1>
+<hr>
+<form asp-action="Register" class="mb-3">
+    <input asp-for="@Model.Id" type="hidden" name="">
+    <div class="mb-3">
+        <label asp-for="@Model.ProjectName" class="form-label">Nome do Projeto</label>
+        <input asp-for="@Model.ProjectName" type="text" class="form-control">
+        <span asp-validation-for="@Model.ProjectName" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="@Model.ProjectDescription" 
+            class="form-label">Descrição do Projeto</label>
+        <textarea asp-for="@Model.ProjectDescription" rows="5" class="form-control"></textarea>
+        <span asp-validation-for="@Model.ProjectDescription" class="text-danger"></span>
+    </div>
+    @if(Model?.Tasks?.Count() > 0){
+        
+    }
+
+    <div class="mb-3">
+        <button class="btn btn-success">Enviar</button>
+        <a asp-action="Index" class="btn btn-danger">Voltar</a>
+    </div>
+</form>

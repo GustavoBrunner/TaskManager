@@ -1,0 +1,47 @@
+@model TaskModelDto
+@{
+    bool isUpdating = ViewContext.RouteData.Values.ContainsKey("id");
+    if(isUpdating)
+        ViewBag.Subtitulo = "Registro de tarefas";
+    else
+        ViewBag.Subtitulo = "Atualização de tarefas";
+}
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<form asp-action="Register" class="mb-3">
+    <input type="hidden" asp-for="@Model.Id">
+    <div class="mb-3">
+        <label asp-for="@Model.TaskName" class="form-label">Nome da Tarefa</label>
+        <input asp-for="@Model.TaskName" type="text" class="form-control">
+        <span asp-validation-for="@Model.TaskName" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="@Model.TaskDescription" class="form-label">Descrição da Tarefa</label>
+        <textarea asp-for="@Model.TaskDescription" class="form-control" rows="6"></textarea>
+        <span asp-validation-for="@Model.TaskDescription" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="@Model.ProjectId" class="form-label">Projeto da Tarefa</label>
+        <select asp-for="@Model.ProjectId" asp-items="@(
+            IEnumerable<SelectListItem>)ViewBag.Projects" class="form-control"></select>
+        <span asp-validation-for="@Model.ProjectId" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="@Model.ResponsibleId" class="form-label">Encarregado</label>
+        <select asp-for="@Model.ResponsibleId" asp-items="@(IEnumerable<SelectListItem>)ViewBag.Employees" class="form-control"></select>
+        <span asp-validation-for="@Model.ResponsibleId" class="text-danger"></span>
+    </div>
+    @if(isUpdating){
+        <div class="mb-3">
+            <label asp-for="@Model.IsActive" class="form-label">Tarefa ativa?</label>
+            <input asp-for="@Model.IsActive" type="checkbox" class="form-check">
+            <span asp-validation-for="@Model.IsActive" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="@Model.IsFinished" class="form-label">Tarefa finalizada?</label>
+            <input asp-for="@Model.IsFinished" type="checkbox" class="form-check">
+            <span asp-validation-for="@Model.IsFinished" class="text-danger"></span>
+        </div>
+    }
+    <button class="btn btn-primary" type="submit">Salvar</button>
+    <a asp-action="Index" class="btn btn-danger">Voltar</a>
+</form>

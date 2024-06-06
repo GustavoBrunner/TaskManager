@@ -1,0 +1,45 @@
+@model LoginViewModel
+
+@{
+    var returnUrl = "";
+    ViewBag.Subtitulo = "Login de usuário";
+    if(Context.Request.Query.ContainsKey("returnUrl")){
+        returnUrl = Context.Request.Query["returnUrl"].ToString();
+    }
+
+    
+}
+
+<h1 class="text-primary"> @ViewBag.Subtitulo</h1>
+<hr>
+
+<div asp-validation-summary="ModelOnly" class="validation-summary text-danger mb-3"></div>
+
+<form asp-action="Login" class="w-3">
+    <input type="hidden" name="ReturnUrl" id="ReturnUrl" value= @returnUrl>
+    <div class="mb-3">
+        <label asp-for="@Model.Email" class="form-label">Email</label>
+        <input asp-for="@Model.Email" class="form-control" type="text">
+        <span asp-validation-for="@Model.Email" class="text-danger"></span>
+    </div>
+    <div class="w-100"></div>
+
+    <div class="mb-3">
+        <label asp-for="@Model.Password" class="form-label">Senha</label>
+        <input asp-for="@Model.Password" class="form-control" type="password" >
+        <span asp-validation-for="@Model.Password" class="text-danger"></span>
+    </div>
+    <div class="w-100"></div>
+
+    <div class="mb-3">
+        <label asp-for="@Model.RememberMe" class="form-ckeck">Lembrar de mim</label>
+        <input asp-for="@Model.RememberMe" class="form-check" type="checkbox" >
+        <span asp-validation-for="@Model.RememberMe" class="text-danger"></span>
+    </div>
+    <div class="w-100"></div>
+
+    <div class="mb-3">
+        <button class="btn btn-primary" type="submit">Entrar</button>
+        <a asp-action="Index" class="btn btn-danger">Voltar</a>
+    </div>
+</form>

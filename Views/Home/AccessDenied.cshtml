@@ -1,0 +1,10 @@
+@model String
+@{
+    ViewBag.Subtitulo = "Acesso negado";
+}
+
+<h1 class="text text-primary">Acesso negado!</h1>
+<hr>
+<h2 class="text text-secondary">Você não tem acesso para essa página</h2>
+
+<a asp-action="Index" asp-controller="Home" class="btn btn-danger">Voltar</a>

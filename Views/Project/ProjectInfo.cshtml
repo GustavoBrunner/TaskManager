@@ -1,0 +1,8 @@
+@model ProjectModelDto
+@{
+    ViewBag.Subtitulo = "Informações de projeto";
+}
+<h1 class="text-primary">@ViewBag.Subtitulo: @Model.ProjectName</h1>
+<hr>
+
+<a asp-action="Index" class="btn btn-danger">Voltar ao início</a>
