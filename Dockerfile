@@ -7,6 +7,8 @@ WORKDIR /app
 #Comando de cópia. O primeiro ponto indica que, na pasta onde o dockerfile se encontra, todo o conteúdo será copiado. O segundo ponto indica a pasta do ambiente virtual para onde esse conteúdo será colado. Seria o mesmo que fazer COPY . /app. Indica a raíz do ambiente virtual
 COPY . .
 
+RUN apt-get update && apt-get install -y curl
+
 #Faz com que o comando dotnet restore seja executado. Ele é responsável por baixar todas as dependências do projeto, no ambiente virtual
 RUN dotnet restore
 
