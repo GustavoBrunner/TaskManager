@@ -1,0 +1,41 @@
+version: "3.0"
+
+services:
+  app:
+    container_name: 
+      task_manager_container
+    build:
+      dockerfile: Dockerfile
+      context: .
+    restart: always
+    ports:
+      - 5041:8080
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__TaskManagerDbContext=Server=sql_task_db;Database=taskmanager;User=root;Password=12345;
+    depends_on:
+      - sql_task_db
+    networks:
+      - docker_sql_network
+  
+  sql_task_db:
+    image: mysql
+    ports:
+      - 3306:3306
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=12345
+      - MYSQL_DATABASE=taskmanager
+      - MYSQL_USER=root
+    networks:
+      docker_sql_network:
+        aliases:
+        - sql
+    
+
+volumes:
+  docker_sql_volume:
+
+networks:
+  docker_sql_network:
+

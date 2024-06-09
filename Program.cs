@@ -79,7 +79,10 @@ using (var scope = app.Services.CreateScope()){
     //ao inicializar o programa ele faz as migrations necessárias para atualizar o banco de dados da maneira que a aplicação necessita para sua execução
     // var context = service.GetRequiredService<TaskManagerDbContext>();
     // context.Database.Migrate();
-    
+    var db = service.GetRequiredService<TaskManagerDbContext>();
+    db.Database.Migrate();
+    db.Database.EnsureCreated();
+
     var roleManager = service
         .GetRequiredService<RoleManager<IdentityRole>>();
     var userManager = service
